@@ -11,11 +11,10 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-    overflow-x:hidden;
+    overflow:hidden;
     background:black;
     font-family:'Poppins',sans-serif;
 }
-
 
 /* Text content */
 .content{
@@ -174,40 +173,6 @@ button.clicked{
     opacity:0;
     transition:0.8s ease;
 }
-/* ================= MOBILE FIX ================= */
-@media (max-width:768px){
-
-    .love-banner{
-        font-size:28px;
-        top:10%;
-        white-space:normal;
-        text-align:center;
-        left:50%;
-        transform:translateX(-50%);
-        animation:
-            glowPulse 4s ease-in-out infinite,
-            shineMove 6s linear infinite;
-    }
-
-    h1{
-        font-size:34px;
-    }
-
-    p{
-        font-size:15px;
-        padding:0 20px;
-        line-height:1.6;
-    }
-
-    button{
-        font-size:16px;
-        padding:12px 28px;
-    }
-
-    .content{
-        padding:0 15px;
-    }
-}
 
 </style>
 </head>
@@ -249,13 +214,8 @@ button.clicked{
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
-
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
 let particles = [];
 let sparks = [];
@@ -491,4 +451,4 @@ function startLove(){
 
 
 </body>
-</html>
+</html> 
