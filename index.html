@@ -18,19 +18,7 @@ body{
 }
 
 /* ================= SCALE WRAPPER ================= */
-#wrapper{
-    width:1920px;
-    height:1080px;
-    position:relative;
-    transform-origin: top left;
-}
 
-/* Mobile auto scale */
-@media (max-width: 768px){
-    #wrapper{
-        transform: scale(min(100vw / 1920, 100vh / 1080));
-    }
-}
 
 /* Text content */
 .content{
@@ -162,6 +150,36 @@ canvas{
     0%,100%{opacity:0.7;}
     50%{opacity:1;}
 }
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px){
+
+    h1{
+        font-size: 36px;
+    }
+
+    p{
+        font-size: 14px;
+        padding: 0 20px;
+        line-height: 1.6;
+    }
+
+    button{
+        padding: 10px 25px;
+        font-size: 14px;
+    }
+
+    .love-banner{
+        font-size: 32px;
+        top: 10%;
+    }
+
+    canvas{
+        width:100vw;
+        height:100vh;
+    }
+
+}
+
 </style>
 </head>
 
