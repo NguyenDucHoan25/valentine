@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>For My Love ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
@@ -171,6 +172,56 @@ button.clicked{
     box-shadow:0 0 80px #ff4da6;
     opacity:0;
     transition:0.8s ease;
+}
+/* ========================= */
+/* 📱 RESPONSIVE MOBILE */
+/* ========================= */
+@media (max-width: 768px){
+
+    body{
+        overflow:auto; /* cho phép cuộn nhẹ nếu cần */
+    }
+
+    canvas{
+        width:100vw;
+        height:100vh;
+    }
+
+    .love-banner{
+        font-size:32px;
+        top:8%;
+        letter-spacing:1px;
+        text-align:center;
+        white-space:normal;
+        width:100%;
+        padding:0 15px;
+        animation: glowPulse 4s ease-in-out infinite, shineMove 6s linear infinite;
+        /* bỏ bay ngang trên mobile cho đỡ tràn */
+    }
+
+    h1{
+        font-size:36px;
+        padding:0 15px;
+    }
+
+    p{
+        font-size:15px;
+        padding:0 20px;
+        line-height:1.6;
+    }
+
+    button{
+        padding:12px 25px;
+        font-size:15px;
+    }
+
+    .content{
+        width:100%;
+        padding:0 10px;
+        top:55%;
+        transform:translateY(-55%);
+    }
+
 }
 
 </style>
