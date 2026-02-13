@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    overflow:hidden;
+    background:black;
+    font-family:'Poppins',sans-serif;
+}
+
+/* Text content */
+.content{
+    position:absolute;
+    width:100%;
+    top:50%;
+    transform:translateY(-50%);
+    text-align:center;
+    z-index:10;
+    color:white;
+}
+
+h1{
+    font-family:'Great Vibes',cursive;
+    font-size:70px;
+    color:#ff9acb;
+    text-shadow:0 0 30px #ff4da6,0 0 60px #ff1e75;
+    opacity:0;
+    transition:2s;
+}
+
+p{
+    margin-top:20px;
+    font-size:20px;
+    opacity:0;
+    transition:3s;
+}
+
+button{
+    margin-top:40px;
+    padding:15px 40px;
+    border:none;
+    border-radius:50px;
+    font-size:18px;
+    background:linear-gradient(45deg,#ff4da6,#ff1e75);
+    color:white;
+    cursor:pointer;
+    box-shadow:0 0 30px #ff1e75;
+    transition:.4s;
+}
+button:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 60px #ff4da6;
+}
+
+/* Cupid */
+.cupid{
+    position:absolute;
+    top:10%;
+    left:-200px;
+    font-size:80px;
+    animation:fly 15s linear infinite;
+}
+@keyframes fly{
+    0%{left:-200px;}
+    100%{left:120%;}
+}
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+.love-banner{
+    position:absolute;
+    top:15%;
+    white-space:nowrap;
+    font-family:'Great Vibes', cursive;
+    font-size:70px;
+    letter-spacing:3px;
+
+    background: linear-gradient(90deg,#ff4da6,#ff99cc,#ffffff,#ff4da6);
+    background-size:300%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 0 20px rgba(255,105,180,0.9),
+        0 0 40px rgba(255,0,150,0.8),
+        0 0 70px rgba(255,0,200,0.7);
+
+    animation:
+        flyCinematic 20s linear infinite,
+        glowPulse 4s ease-in-out infinite,
+        shineMove 6s linear infinite;
+
+    z-index:30;
+
+    /* tối ưu mượt */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* 🚀 DI CHUYỂN SIÊU MƯỢT (GPU) */
+@keyframes flyCinematic{
+    0%{
+        transform: translateX(-120vw) scale(0.9);
+    }
+    50%{
+        transform: translateX(0vw) scale(1.1);
+    }
+    100%{
+        transform: translateX(120vw) scale(0.95);
+    }
+}
+
+/* 💖 Glow mượt – không nhấp nháy mờ */
+@keyframes glowPulse{
+    0%,100%{
+        text-shadow:
+            0 0 20px rgba(255,105,180,0.9),
+            0 0 40px rgba(255,0,150,0.8),
+            0 0 70px rgba(255,0,200,0.7);
+    }
+    50%{
+        text-shadow:
+            0 0 30px rgba(255,150,200,1),
+            0 0 60px rgba(255,0,200,1),
+            0 0 100px rgba(255,0,220,0.9);
+    }
+}
+
+/* ✨ ánh sáng chạy qua chữ */
+@keyframes shineMove{
+    0%{background-position:0%;}
+    100%{background-position:300%;}
+}
+
+/* 💓 tim đập */
+.heart{
+    display:inline-block;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+}
+
+/* 🌟 sparkle mượt */
+.sparkle{
+    display:inline-block;
+    animation: sparkleBlink 2s ease-in-out infinite;
+}
+
+@keyframes sparkleBlink{
+    0%,100%{opacity:0.7;}
+    50%{opacity:1;}
+}
+button.clicked{
+    transform:scale(1.2);
+    box-shadow:0 0 80px #ff4da6;
+    opacity:0;
+    transition:0.8s ease;
+}
+
+</style>
+</head>
+<body>
+
+<div class="love-banner">
+    <span class="sparkle">✨</span>
+    Trịnh Phương Dung
+    <span class="heart">💖</span>
+    14-02-2006
+    <span class="sparkle">✨</span>
+</div>
+
+
+
+
+<canvas id="canvas"></canvas>
+
+<div class="content">
+    <h1 id="title">Happy Valentine 💕</h1>
+    <p id="message">
+    14-02 – ngày cả thế giới nói về tình yêu 💖<br>
+    Nhưng với anh, đó còn là ngày một cô gái đặc biệt được sinh ra ✨<br><br>
+
+    Cảm ơn em đã đến bên anh, đã làm cho mỗi ngày trở nên ý nghĩa hơn.<br>
+    Chúc mừng sinh nhật em – món quà tuyệt vời nhất mà Valentine từng có 💝<br><br>
+
+    Mong rằng thật nhiều 14-02 sau này, anh vẫn là người đứng cạnh em.
+</p>
+
+    <button onclick="startLove()">Chạm vào tim anh 💌</button>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+let sparks = [];
+let stars = [];
+let shootingStars = [];
+let time = 0;
+
+/* ===================== */
+/* ⭐ TẠO SAO NỀN */
+/* ===================== */
+for(let i=0;i<400;i++){
+    stars.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        size: Math.random()*1.5,
+        speed: Math.random()*0.4 + 0.1,
+        alpha: Math.random()*0.8
+    });
+}
+
+function createShootingStar(){
+    shootingStars.push({
+        x: Math.random()*canvas.width,
+        y: -50,
+        length: Math.random()*120+80,
+        speed: Math.random()*8+6,
+        alpha:1
+    });
+}
+
+/* ===================== */
+/* 💖 CÔNG THỨC TRÁI TIM */
+/* ===================== */
+function heart(t){
+    return {
+        x:16*Math.pow(Math.sin(t),3),
+        y:13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t)
+    }
+}
+
+/* Tạo tim lớn */
+for(let i=0;i<3500;i++){
+    let t=Math.random()*Math.PI*2;
+    let pos=heart(t);
+    particles.push({
+        baseX:pos.x*14,
+        baseY:-pos.y*14,
+        size:Math.random()*1.8+0.5,
+        offset:Math.random()*1000
+    });
+}
+
+/* Spark bay từ viền tim */
+function createSpark(){
+    let t=Math.random()*Math.PI*2;
+    let pos=heart(t);
+    sparks.push({
+        x:pos.x*14,
+        y:-pos.y*14,
+        vx:pos.x*0.05,
+        vy:-pos.y*0.05,
+        alpha:1,
+        size:Math.random()*2+1
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    /* 🌌 Nền tối mờ */
+    ctx.fillStyle="rgba(0,0,0,0.4)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    /* ===================== */
+    /* ⭐ VẼ SAO NỀN */
+    /* ===================== */
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+        ctx.fill();
+
+        s.y += s.speed;
+
+        if(s.y > canvas.height){
+            s.y = 0;
+            s.x = Math.random()*canvas.width;
+        }
+    });
+
+    /* 🌠 Sao băng */
+    if(Math.random() < 0.008){
+        createShootingStar();
+    }
+
+    shootingStars.forEach((s,i)=>{
+        let gradient = ctx.createLinearGradient(s.x,s.y,s.x-s.length,s.y-s.length);
+        gradient.addColorStop(0,"rgba(255,255,255,1)");
+        gradient.addColorStop(1,"rgba(255,255,255,0)");
+
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.moveTo(s.x,s.y);
+        ctx.lineTo(s.x-s.length,s.y-s.length);
+        ctx.stroke();
+
+        s.x += s.speed;
+        s.y += s.speed;
+        s.alpha -= 0.02;
+
+        if(s.alpha <= 0){
+            shootingStars.splice(i,1);
+        }
+    });
+
+    /* ===================== */
+    /* 💓 TIM PREMIUM */
+    /* ===================== */
+    time += 0.02;
+    let scale = 1 + Math.sin(time)*0.04;
+
+    ctx.save();
+    ctx.translate(canvas.width/2,canvas.height/2);
+    ctx.scale(scale,scale);
+
+    /* Glow trung tâm */
+    let gradient = ctx.createRadialGradient(0,0,10,0,0,200);
+    gradient.addColorStop(0,"rgba(255,80,150,0.8)");
+    gradient.addColorStop(1,"rgba(255,0,90,0)");
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(0,0,180,0,Math.PI*2);
+    ctx.fill();
+
+    /* Vẽ tim */
+    particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.fillStyle="rgba(255,105,180,0.95)";
+        ctx.arc(p.baseX,p.baseY,p.size,0,Math.PI*2);
+        ctx.fill();
+    });
+
+    ctx.restore();
+
+    /* ✨ Spark từ viền tim */
+    if(Math.random()<0.25){
+        createSpark();
+    }
+
+    sparks.forEach((s,i)=>{
+        ctx.save();
+        ctx.translate(canvas.width/2,canvas.height/2);
+        ctx.beginPath();
+        ctx.fillStyle=`rgba(255,120,180,${s.alpha})`;
+        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+
+        s.x += s.vx;
+        s.y += s.vy;
+        s.alpha -= 0.015;
+
+        if(s.alpha<=0){
+            sparks.splice(i,1);
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+function startLove(){
+
+    const music = document.getElementById("music");
+    const button = document.querySelector("button");
+
+    // 🎵 phát nhạc + fade in
+    music.volume = 0;
+    music.play().catch(()=>{});
+
+    let fade = setInterval(()=>{
+        if(music.volume < 1){
+            music.volume += 0.03;
+        } else {
+            clearInterval(fade);
+        }
+    },150);
+
+    // ✨ hiệu ứng nút phát sáng rồi biến mất
+    button.classList.add("clicked");
+    setTimeout(()=>{
+        button.style.display="none";
+    },800);
+
+    // 💖 tim đập mạnh 2 giây
+    let originalTime = time;
+    let boost = 0;
+    let interval = setInterval(()=>{
+        boost += 0.1;
+        time += 0.15;
+        if(boost > 20){
+            clearInterval(interval);
+        }
+    },50);
+
+    // 🌌 fade nhẹ màn hình (intro cảm xúc)
+    let overlay = document.createElement("div");
+    overlay.style.position="fixed";
+    overlay.style.top="0";
+    overlay.style.left="0";
+    overlay.style.width="100%";
+    overlay.style.height="100%";
+    overlay.style.background="black";
+    overlay.style.opacity="0";
+    overlay.style.pointerEvents="none";
+    overlay.style.transition="1s";
+    document.body.appendChild(overlay);
+
+    setTimeout(()=>{ overlay.style.opacity="0.4"; },10);
+    setTimeout(()=>{ overlay.style.opacity="0"; },800);
+    setTimeout(()=>{ overlay.remove(); },1800);
+
+    // 📖 hiện nội dung mượt
+    document.getElementById("title").style.opacity=1;
+    document.getElementById("message").style.opacity=1;
+}
+
+</script>
+
+
+
+
+</body>
+</html>
