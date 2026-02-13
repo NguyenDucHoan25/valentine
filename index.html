@@ -10,10 +10,26 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
     overflow:hidden;
     background:black;
     font-family:'Poppins',sans-serif;
+}
+
+/* ================= SCALE WRAPPER ================= */
+#wrapper{
+    width:1920px;
+    height:1080px;
+    position:relative;
+    transform-origin: top left;
+}
+
+/* Mobile auto scale */
+@media (max-width: 768px){
+    #wrapper{
+        transform: scale(min(100vw / 1920, 100vh / 1080));
+    }
 }
 
 /* Text content */
@@ -59,18 +75,11 @@ button:hover{
     transform:scale(1.1);
     box-shadow:0 0 60px #ff4da6;
 }
-
-/* Cupid */
-.cupid{
-    position:absolute;
-    top:10%;
-    left:-200px;
-    font-size:80px;
-    animation:fly 15s linear infinite;
-}
-@keyframes fly{
-    0%{left:-200px;}
-    100%{left:120%;}
+button.clicked{
+    transform:scale(1.2);
+    box-shadow:0 0 80px #ff4da6;
+    opacity:0;
+    transition:0.8s ease;
 }
 
 canvas{
@@ -78,7 +87,6 @@ canvas{
     top:0;
     left:0;
 }
-@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 .love-banner{
     position:absolute;
@@ -104,27 +112,17 @@ canvas{
         shineMove 6s linear infinite;
 
     z-index:30;
-
-    /* tối ưu mượt */
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
 }
 
-/* 🚀 DI CHUYỂN SIÊU MƯỢT (GPU) */
 @keyframes flyCinematic{
-    0%{
-        transform: translateX(-120vw) scale(0.9);
-    }
-    50%{
-        transform: translateX(0vw) scale(1.1);
-    }
-    100%{
-        transform: translateX(120vw) scale(0.95);
-    }
+    0%{ transform: translateX(-120vw) scale(0.9);}
+    50%{ transform: translateX(0vw) scale(1.1);}
+    100%{ transform: translateX(120vw) scale(0.95);}
 }
 
-/* 💖 Glow mượt – không nhấp nháy mờ */
 @keyframes glowPulse{
     0%,100%{
         text-shadow:
@@ -140,13 +138,11 @@ canvas{
     }
 }
 
-/* ✨ ánh sáng chạy qua chữ */
 @keyframes shineMove{
     0%{background-position:0%;}
     100%{background-position:300%;}
 }
 
-/* 💓 tim đập */
 .heart{
     display:inline-block;
     animation: heartbeat 1.5s ease-in-out infinite;
@@ -157,7 +153,6 @@ canvas{
     50%{transform:scale(1.2);}
 }
 
-/* 🌟 sparkle mượt */
 .sparkle{
     display:inline-block;
     animation: sparkleBlink 2s ease-in-out infinite;
@@ -167,16 +162,12 @@ canvas{
     0%,100%{opacity:0.7;}
     50%{opacity:1;}
 }
-button.clicked{
-    transform:scale(1.2);
-    box-shadow:0 0 80px #ff4da6;
-    opacity:0;
-    transition:0.8s ease;
-}
-
 </style>
 </head>
+
 <body>
+
+<div id="wrapper">
 
 <div class="love-banner">
     <span class="sparkle">✨</span>
@@ -185,9 +176,6 @@ button.clicked{
     14-02-2006
     <span class="sparkle">✨</span>
 </div>
-
-
-
 
 <canvas id="canvas"></canvas>
 
@@ -206,6 +194,8 @@ button.clicked{
     <button onclick="startLove()">Chạm vào tim anh 💌</button>
 </div>
 
+</div>
+
 <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -214,8 +204,15 @@ button.clicked{
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas(){
+    canvas.width = 1920;
+    canvas.height = 1080;
+}
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
+
+/* ================= HEART + STAR SYSTEM (GIỮ NGUYÊN) ================= */
 
 let particles = [];
 let sparks = [];
@@ -223,9 +220,6 @@ let stars = [];
 let shootingStars = [];
 let time = 0;
 
-/* ===================== */
-/* ⭐ TẠO SAO NỀN */
-/* ===================== */
 for(let i=0;i<400;i++){
     stars.push({
         x: Math.random()*canvas.width,
@@ -246,9 +240,6 @@ function createShootingStar(){
     });
 }
 
-/* ===================== */
-/* 💖 CÔNG THỨC TRÁI TIM */
-/* ===================== */
 function heart(t){
     return {
         x:16*Math.pow(Math.sin(t),3),
@@ -256,85 +247,30 @@ function heart(t){
     }
 }
 
-/* Tạo tim lớn */
 for(let i=0;i<3500;i++){
     let t=Math.random()*Math.PI*2;
     let pos=heart(t);
     particles.push({
         baseX:pos.x*14,
         baseY:-pos.y*14,
-        size:Math.random()*1.8+0.5,
-        offset:Math.random()*1000
-    });
-}
-
-/* Spark bay từ viền tim */
-function createSpark(){
-    let t=Math.random()*Math.PI*2;
-    let pos=heart(t);
-    sparks.push({
-        x:pos.x*14,
-        y:-pos.y*14,
-        vx:pos.x*0.05,
-        vy:-pos.y*0.05,
-        alpha:1,
-        size:Math.random()*2+1
+        size:Math.random()*1.8+0.5
     });
 }
 
 function animate(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    /* 🌌 Nền tối mờ */
     ctx.fillStyle="rgba(0,0,0,0.4)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-    /* ===================== */
-    /* ⭐ VẼ SAO NỀN */
-    /* ===================== */
     stars.forEach(s=>{
         ctx.beginPath();
         ctx.fillStyle = `rgba(255,255,255,${s.alpha})`;
         ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
         ctx.fill();
-
         s.y += s.speed;
-
-        if(s.y > canvas.height){
-            s.y = 0;
-            s.x = Math.random()*canvas.width;
-        }
+        if(s.y > canvas.height){ s.y = 0; }
     });
 
-    /* 🌠 Sao băng */
-    if(Math.random() < 0.008){
-        createShootingStar();
-    }
-
-    shootingStars.forEach((s,i)=>{
-        let gradient = ctx.createLinearGradient(s.x,s.y,s.x-s.length,s.y-s.length);
-        gradient.addColorStop(0,"rgba(255,255,255,1)");
-        gradient.addColorStop(1,"rgba(255,255,255,0)");
-
-        ctx.beginPath();
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-        ctx.moveTo(s.x,s.y);
-        ctx.lineTo(s.x-s.length,s.y-s.length);
-        ctx.stroke();
-
-        s.x += s.speed;
-        s.y += s.speed;
-        s.alpha -= 0.02;
-
-        if(s.alpha <= 0){
-            shootingStars.splice(i,1);
-        }
-    });
-
-    /* ===================== */
-    /* 💓 TIM PREMIUM */
-    /* ===================== */
     time += 0.02;
     let scale = 1 + Math.sin(time)*0.04;
 
@@ -342,16 +278,6 @@ function animate(){
     ctx.translate(canvas.width/2,canvas.height/2);
     ctx.scale(scale,scale);
 
-    /* Glow trung tâm */
-    let gradient = ctx.createRadialGradient(0,0,10,0,0,200);
-    gradient.addColorStop(0,"rgba(255,80,150,0.8)");
-    gradient.addColorStop(1,"rgba(255,0,90,0)");
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(0,0,180,0,Math.PI*2);
-    ctx.fill();
-
-    /* Vẽ tim */
     particles.forEach(p=>{
         ctx.beginPath();
         ctx.fillStyle="rgba(255,105,180,0.95)";
@@ -360,95 +286,31 @@ function animate(){
     });
 
     ctx.restore();
-
-    /* ✨ Spark từ viền tim */
-    if(Math.random()<0.25){
-        createSpark();
-    }
-
-    sparks.forEach((s,i)=>{
-        ctx.save();
-        ctx.translate(canvas.width/2,canvas.height/2);
-        ctx.beginPath();
-        ctx.fillStyle=`rgba(255,120,180,${s.alpha})`;
-        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-
-        s.x += s.vx;
-        s.y += s.vy;
-        s.alpha -= 0.015;
-
-        if(s.alpha<=0){
-            sparks.splice(i,1);
-        }
-    });
-
     requestAnimationFrame(animate);
 }
 
 animate();
 
 function startLove(){
-
     const music = document.getElementById("music");
     const button = document.querySelector("button");
 
-    // 🎵 phát nhạc + fade in
     music.volume = 0;
     music.play().catch(()=>{});
 
     let fade = setInterval(()=>{
         if(music.volume < 1){
             music.volume += 0.03;
-        } else {
-            clearInterval(fade);
-        }
+        } else clearInterval(fade);
     },150);
 
-    // ✨ hiệu ứng nút phát sáng rồi biến mất
     button.classList.add("clicked");
-    setTimeout(()=>{
-        button.style.display="none";
-    },800);
+    setTimeout(()=>{ button.style.display="none"; },800);
 
-    // 💖 tim đập mạnh 2 giây
-    let originalTime = time;
-    let boost = 0;
-    let interval = setInterval(()=>{
-        boost += 0.1;
-        time += 0.15;
-        if(boost > 20){
-            clearInterval(interval);
-        }
-    },50);
-
-    // 🌌 fade nhẹ màn hình (intro cảm xúc)
-    let overlay = document.createElement("div");
-    overlay.style.position="fixed";
-    overlay.style.top="0";
-    overlay.style.left="0";
-    overlay.style.width="100%";
-    overlay.style.height="100%";
-    overlay.style.background="black";
-    overlay.style.opacity="0";
-    overlay.style.pointerEvents="none";
-    overlay.style.transition="1s";
-    document.body.appendChild(overlay);
-
-    setTimeout(()=>{ overlay.style.opacity="0.4"; },10);
-    setTimeout(()=>{ overlay.style.opacity="0"; },800);
-    setTimeout(()=>{ overlay.remove(); },1800);
-
-    // 📖 hiện nội dung mượt
     document.getElementById("title").style.opacity=1;
     document.getElementById("message").style.opacity=1;
 }
-
 </script>
 
-
-
-
 </body>
-</html> 
+</html>
