@@ -11,10 +11,11 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-    overflow:hidden;
+    overflow-x:hidden;
     background:black;
     font-family:'Poppins',sans-serif;
 }
+
 
 /* Text content */
 .content{
@@ -173,35 +174,23 @@ button.clicked{
     opacity:0;
     transition:0.8s ease;
 }
-/* ========================= */
-/* 📱 RESPONSIVE MOBILE */
-/* ========================= */
-@media (max-width: 768px){
-
-    body{
-        overflow:auto; /* cho phép cuộn nhẹ nếu cần */
-    }
-
-    canvas{
-        width:100vw;
-        height:100vh;
-    }
+/* ================= MOBILE FIX ================= */
+@media (max-width:768px){
 
     .love-banner{
-        font-size:32px;
-        top:8%;
-        letter-spacing:1px;
-        text-align:center;
+        font-size:28px;
+        top:10%;
         white-space:normal;
-        width:100%;
-        padding:0 15px;
-        animation: glowPulse 4s ease-in-out infinite, shineMove 6s linear infinite;
-        /* bỏ bay ngang trên mobile cho đỡ tràn */
+        text-align:center;
+        left:50%;
+        transform:translateX(-50%);
+        animation:
+            glowPulse 4s ease-in-out infinite,
+            shineMove 6s linear infinite;
     }
 
     h1{
-        font-size:36px;
-        padding:0 15px;
+        font-size:34px;
     }
 
     p{
@@ -211,17 +200,13 @@ button.clicked{
     }
 
     button{
-        padding:12px 25px;
-        font-size:15px;
+        font-size:16px;
+        padding:12px 28px;
     }
 
     .content{
-        width:100%;
-        padding:0 10px;
-        top:55%;
-        transform:translateY(-55%);
+        padding:0 15px;
     }
-
 }
 
 </style>
@@ -264,8 +249,13 @@ button.clicked{
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resizeCanvas(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
 
 let particles = [];
 let sparks = [];
